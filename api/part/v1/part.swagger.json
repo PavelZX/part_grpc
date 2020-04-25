@@ -1,0 +1,296 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/part/v1/part.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/part": {
+      "get": {
+        "operationId": "ListPart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1ListPartResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "not_completed",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          }
+        ],
+        "tags": [
+          "PartService"
+        ]
+      },
+      "post": {
+        "operationId": "CreatePart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1CreatePartResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1Part"
+            }
+          }
+        ],
+        "tags": [
+          "PartService"
+        ]
+      },
+      "put": {
+        "operationId": "UpdatePart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1UpdatePartResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1Part"
+            }
+          }
+        ],
+        "tags": [
+          "PartService"
+        ]
+      }
+    },
+    "/v1/part/bulk": {
+      "post": {
+        "summary": "Bulk version of CreatePart",
+        "operationId": "CreateParts",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1CreatePartsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreatePartsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PartService"
+        ]
+      },
+      "put": {
+        "operationId": "UpdateParts",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1UpdatePartsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdatePartsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PartService"
+        ]
+      }
+    },
+    "/v1/part/{id}": {
+      "get": {
+        "operationId": "GetPart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1GetPartResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PartService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeletePart",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/v1DeletePartResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PartService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "v1CreatePartResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "v1CreatePartsRequest": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Part"
+          }
+        }
+      }
+    },
+    "v1CreatePartsResponse": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "v1DeletePartResponse": {
+      "type": "object"
+    },
+    "v1GetPartResponse": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "$ref": "#/definitions/v1Part"
+        }
+      }
+    },
+    "v1ListPartResponse": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Part"
+          }
+        }
+      }
+    },
+    "v1Part": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "boolean",
+          "format": "boolean",
+          "title": "@inject_tag: sql:\",notnull,default:false\""
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "@inject_tag: sql:\"type:timestamptz,default:now()\""
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "title": "@inject_tag: sql:\"type:timestamptz\""
+        }
+      }
+    },
+    "v1UpdatePartResponse": {
+      "type": "object"
+    },
+    "v1UpdatePartsRequest": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Part"
+          }
+        }
+      }
+    },
+    "v1UpdatePartsResponse": {
+      "type": "object"
+    }
+  }
+}

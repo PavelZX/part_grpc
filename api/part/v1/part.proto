@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package part.v1;
+
+option go_package = "part";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service PartService {
+	rpc CreatePart(CreatePartRequest) returns (CreatePartResponse) {
+		option (google.api.http) ={
+			post: "/v1/part"
+			body: "item"
+		};
+	}
+
+	// Bulk version of CreatePart
+	rpc CreateParts(CreatePartsRequest) returns (CreatePartsResponse) {
+		option (google.api.http) ={
+			post: "/v1/part/bulk"
+			body: "*"
+		};
+	}
+
+	rpc GetPart(GetPartRequest) returns (GetPartResponse) {
+		option (google.api.http) ={
+			get: "/v1/part/{id}"
+		};
+	}
+
+	rpc ListPart(ListPartRequest) returns (ListPartResponse) {
+		option (google.api.http) ={
+			get: "/v1/part"
+		};
+	}
+
+	rpc DeletePart(DeletePartRequest) returns (DeletePartResponse) {
+		option (google.api.http) ={
+			delete: "/v1/part/{id}"
+		};
+	}
+
+	rpc UpdatePart(UpdatePartRequest) returns (UpdatePartResponse) {
+		option (google.api.http) ={
+			put: "/v1/part"
+			body: "item"
+		};
+	}
+
+	rpc UpdateParts(UpdatePartsRequest) returns (UpdatePartsResponse) {
+		option (google.api.http) ={
+			put: "/v1/part/bulk"
+			body: "*"
+		};
+	}
+}
+
+message Part {
+	string id = 1;
+	string title = 2;
+	string description = 3;
+
+	// @inject_tag: sql:",notnull,default:false"
+	bool completed = 4;
+
+	// @inject_tag: sql:"type:timestamptz,default:now()"
+	google.protobuf.Timestamp created_at = 5;
+
+	// @inject_tag: sql:"type:timestamptz"
+	google.protobuf.Timestamp updated_at = 6;
+}
+
+message CreatePartRequest {
+	Part item = 1;
+}
+
+message CreatePartResponse {
+	string id = 1;
+}
+
+message CreatePartsRequest {
+	repeated Part items = 1;
+}
+
+message CreatePartsResponse {
+	repeated string ids = 1;
+}
+
+message GetPartRequest {
+	string id = 1;
+}
+
+message GetPartResponse {
+	Part item = 1;
+}
+
+message ListPartRequest {
+	int32 limit = 1;
+	bool not_completed = 2;
+}
+
+message ListPartResponse {
+	repeated Part items = 1;
+}
+
+message DeletePartRequest {
+	string id = 1;
+}
+
+message DeletePartResponse {}
+
+message UpdatePartRequest {
+	Part item = 1;
+}
+
+message UpdatePartResponse {}
+
+message UpdatePartsRequest {
+	repeated Part items = 1;
+}
+
+message UpdatePartsResponse {}
